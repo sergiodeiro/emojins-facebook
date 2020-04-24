@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Emocti</title>
+        <link rel="stylesheet" type="text/css" href="css/style.css">
+    </head>
+    <body>
+        <div class="particlesContainer">
+            <span class="particle like"></span>
+        </div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.min.js"></script>
+        <script>
+            $(document).ready(function() {
+                // generate the randon number
+                var getRndInteger = function(min, max){
+                    return Math.floor(Math.random() * (max-min+1)) + min;
+                }
+                // Array dos Emojins
+                var fbReactions = ["like", "love", "happy", "wow", "sad", "angry"];
+                
+                var interval;
+
+                $(window).on("focus", function(){
+                    //when window is active
+
+                    interval = setInterval(function(){
+                        $(".particlesContainer").append("<span class='particle "+fbReactions[getRndInteger(0,
+                        fbReactions.length - 1)]+"'></span>");
+
+                    $(".particle").toArray().forEach(function(particle){
+                        $(particle).animate({
+                            left:getRndInteger(0, $("body").width()),
+                            right: getRndInteger(0, $("body").width())
+                        }, getRndInteger(10,30), function(){
+                            $(particle).animate({
+                                top: -100 + "%",
+                                opacity: 0
+                            }, getRndInteger(5000,8000), function(){
+                                $(particle).remove();
+                            });//inside animation function
+                        });// firt animate function
+                    });
+
+                    }, getRndInteger(400,600));
+                });
+
+                $(window).on("blur", function(){
+                    //when window is inactive
+                    clearInterval(interval);
+                });
+                
+            });
+        </script>
+    </body>
+</html>
